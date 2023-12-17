@@ -30,8 +30,9 @@ class Game(models.Model):
         return f'{self.name_of_game} {self.start_of_registration} - {self.end_of_registration}'
 
     class Meta:
-        verbose_name = 'Игра'
+        verbose_name = 'Игру'
         verbose_name_plural = 'Игры'
+        ordering = ['-start_of_registration']
 
 
 class Patricipants(models.Model):
@@ -62,8 +63,9 @@ class Patricipants(models.Model):
         return f'{self.game} {self.name}'
 
     class Meta:
-        verbose_name = 'Участник'
+        verbose_name = 'Участника'
         verbose_name_plural = 'Участники'
+        ordering = ['id']
 
 
 class Givers(models.Model):

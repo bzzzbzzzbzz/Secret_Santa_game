@@ -107,8 +107,6 @@ async def player_letter(message: types.Message, state: FSMContext):
         async for g in Game.objects.filter(creators_id=GAME_ID):
             game = g
             break
-        # print("Game: ", game)
-        # print("User id?: ", message.from_user.id)
         participant = Patricipants(game=game, id_user=message.from_user.id,
                                    name=NAME, e_mail=PLAYER_E_MAIL,
                                    interests=PLAYER_INTERESTS, letter_to_santa=PLAYER_LETTER,)

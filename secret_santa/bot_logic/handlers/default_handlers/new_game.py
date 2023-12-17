@@ -68,9 +68,11 @@ async def gift_price(callback: types.CallbackQuery):
 
 @dp.callback_query(F.data.in_(["Без ограничений", "500 рублей", "500-1000 рублей", "1000-2000 рублей"]))
 async def registration_period(callback: types.CallbackQuery):
+    global PRICE
     if callback.data in ("500 рублей", "500-1000 рублей", "1000-2000 рублей"):
-        global PRICE
         PRICE = callback.data
+    else:
+        PRICE = None
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
         text="до 25.12.2023", callback_data="25")

@@ -2,9 +2,20 @@ from django.contrib import admin
 from .models import Game, Patricipants, Givers
 from .forms import PatricipantsForm, GiversForm
 
+from .gifting import perform_pairing
+from secret_santa.bot_logic.handlers.default_handlers.new_game import announce
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
+    actions = ["assign_gifters"]
+    @admin.action(description="Ручная жеребьевка выбранных игр")
+    def assign_gifters(modeladmin, request, queryset):
+        # loop = asyncio.new_event_loop()
+        # asyncio.set_event_loop(loop)
+
+        # asyncio.run(announce(list(queryset)))
+        perform_pairing(list(queryset))
+
     list_display = ('id', 'name_of_game', 'creators_id', 'cost_of_the_gift',
                     'start_of_registration', 'end_of_registration', 'departure_date',
                     'link_to_the_game'

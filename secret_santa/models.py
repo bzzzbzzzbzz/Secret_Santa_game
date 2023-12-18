@@ -88,8 +88,10 @@ class Givers(models.Model):
     )
     message = models.TextField(
         verbose_name='Сообщение',
-        max_length=200
+        max_length=200,
+        default='Пусто'
     )
+
     def __str__(self):
         return f'{self.game} {self.givers} - {self.recipient}'
 

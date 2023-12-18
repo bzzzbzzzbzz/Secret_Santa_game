@@ -6,12 +6,10 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.fsm.context import FSMContext
 from secret_santa.bot_logic.statesform import StepsForm
 from aiogram_calendar import SimpleCalendar, SimpleCalendarCallback
-from secret_santa.models import Game, Givers
-
-from asgiref.sync import sync_to_async, async_to_sync
+from secret_santa.models import Game
+from asgiref.sync import sync_to_async
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from secret_santa.gifting import perform_pairing
-# from default_handlers.start import perform_pairing
 
 NAME_GAME = None
 PRICE = None
@@ -108,11 +106,8 @@ async def process_simple_calendar(callback_query: types.CallbackQuery, callback_
         departure_date = date.strftime("%d.%m.%Y")
         data2 = date.strftime("%Y.%m.%d").split('.')
         departure_date2 = datetime.date(int(data2[0]), int(data2[1]), int(data2[2]))
-        # link = f"https://t.me/Secret_Santa_educational_bot?start={callback_query.from_user.id}"
-        link = f"https://t.me/sec_santa_test_bot?start={callback_query.from_user.id}"
-        # Game.objects.create(name_of_game=NAME_GAME, creators_id=user_id, cost_of_the_gift=PRICE,
-        #                     start_of_registration=datetime.date.today(), end_of_registration=end_of_registration,
-        #                     departure_date=departure_date2)
+        link = f"https://t.me/Secret_Santa_educational_bot?start={callback_query.from_user.id}"
+        # link = f"https://t.me/sec_santa_test_bot?start={callback_query.from_user.id}"
         new_game = Game(name_of_game=NAME_GAME, creators_id=user_id, cost_of_the_gift=PRICE,
                         start_of_registration=datetime.date.today(), end_of_registration=end_of_registration,
                         departure_date=departure_date2, link_to_the_game=link)
@@ -126,7 +121,7 @@ async def process_simple_calendar(callback_query: types.CallbackQuery, callback_
 
         schebuler = AsyncIOScheduler()
         schebuler.add_job(announce, trigger="date",
-                          next_run_time=datetime.datetime.strptime( END_OF_REGISTRATION, '%d.%m.%Y' ),
+                          next_run_time=datetime.datetime.strptime(END_OF_REGISTRATION, '%d.%m.%Y'),
                           # next_run_time=datetime.datetime.now() + datetime.timedelta(seconds=60),
                           kwargs={'games': [new_game]})
         schebuler.start()

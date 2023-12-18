@@ -1,1 +1,1 @@
-web: gunicorn tg_admin.wsgi -log-file -pi
+web: gunicorn tg_admin.wsgi:application --log-file - --log-level debug

@@ -31,8 +31,18 @@ async def cmd_start(message: types.Message, state: FSMContext):
         global PLAYER_ID
         GAME_ID = id_organizer
         PLAYER_ID = message.from_user.id
+        game = None
+        async for g in Game.objects.filter(creators_id=GAME_ID):
+            game = g
+            break
         # Запрос на информацию об игре
-        await message.answer(f"Замечательно, ты собираешься участвовать в игре: {id_organizer}")
+        await message.answer(
+            f"Замечательно, ты собираешься участвовать в игре: {id_organizer}\n"
+            f"Название: {game.name_of_game},\nОграничение стомости подарков: "
+            f"{game.cost_of_the_gift if game.cost_of_the_gift else 'Нет'}\n"
+            f"Регистрация до: {game.end_of_registration.strftime('%d.%m.%Y')}\n"
+            f"Высылать подарки до: {game.departure_date.strftime('%d.%m.%Y')}"
+        )
                              # "(вывести на экран данные об игре: название, ограничение стоимости подарка, "
                              # "период регистрации и дата отправки подарков)")
         await message.answer("Для участия пройди регистрацию.\n"
